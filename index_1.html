@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Made by Kuzo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.sub {
+      font-size: 1rem;
+      color: #888;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .wave {
+      margin-top: 2rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 40px;
+    }
+
+    .wave span {
+      display: block;
+      width: 6px;
+      background: #fff;
+      border-radius: 3px;
+      animation: wave 1s ease-in-out infinite;
+    }
+
+    .wave span:nth-child(1) { animation-delay: 0.0s; height: 10px; }
+    .wave span:nth-child(2) { animation-delay: 0.1s; height: 20px; }
+    .wave span:nth-child(3) { animation-delay: 0.2s; height: 35px; }
+    .wave span:nth-child(4) { animation-delay: 0.3s; height: 20px; }
+    .wave span:nth-child(5) { animation-delay: 0.4s; height: 10px; }
+    .wave span:nth-child(6) { animation-delay: 0.3s; height: 20px; }
+    .wave span:nth-child(7) { animation-delay: 0.2s; height: 35px; }
+    .wave span:nth-child(8) { animation-delay: 0.1s; height: 20px; }
+    .wave span:nth-child(9) { animation-delay: 0.0s; height: 10px; }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+
+    #status {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 0.1em;
+    }
+
+    button#play-btn {
+      margin-top: 1.5rem;
+      display: none;
+      padding: 0.6rem 1.5rem;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 99px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    button#play-btn:hover { background: #ddd; }
+  </style>
+</head>
+<body>
+
+  <h1>Made by Kuzo</h1>
+  <p class="sub">Now Playing</p>
+
+  <div class="wave">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+
+  <p id="status">Loading audio...</p>
+  <button id="play-btn" onclick="playAudio()">▶ Play Sound</button>
+
+  <!-- 🔊 Change "sound.mp3" to your audio file name -->
+  <audio id="myAudio" src="sound.mp3" preload="auto" loop></audio>
+
+  <script>
+    const audio = document.getElementById('myAudio');
+    const status = document.getElementById('status');
+    const btn = document.getElementById('play-btn');
+
+    function playAudio() {
+      audio.play().then(() => {
+        status.textContent = 'Playing...';
+        btn.style.display = 'none';
+      });
+    }
+
+    function tryPlay() {
+      audio.play().then(() => {
+        status.textContent = 'Playing...';
+        btn.style.display = 'none';
+      }).catch(() => {
+        status.textContent = 'Tap to play';
+        btn.style.display = 'inline-block';
+      });
+    }
+
+    window.addEventListener('load', tryPlay);
+
+    // Also triggers on first tap (helps on mobile browsers)
+    document.addEventListener('click', () => {
+      if (audio.paused) playAudio();
+    }, { once: true });
+  </script>
+
+</body>
+</html>
